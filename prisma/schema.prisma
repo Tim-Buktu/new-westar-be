@@ -1,0 +1,97 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum ShowcaseSection {
+  featured
+  mosaic
+  loop
+}
+
+model Newsletter {
+  id             String    @id @default(cuid())
+  title          String
+  date           DateTime
+  displayDate    String?
+  keyDiscussion  Json?
+  content        String?
+  contentHtml    String?
+  image          Json?
+  tags           String[]  @default([])
+  newsletterUrl  String?
+  summary        String?
+  category       String?
+  views          Int?
+  author         Json?
+  lastUpdated    DateTime?
+  insights       String[]  @default([])
+  resources      Json?
+  createdAt      DateTime  @default(now())
+  updatedAt      DateTime  @updatedAt
+}
+
+model Article {
+  id             String           @id @default(cuid())
+  title          String
+  date           DateTime
+  displayDate    String?
+  content        String?
+  keyDiscussion  Json?
+  image          Json?
+  tags           String[]         @default([])
+  summary        String?
+  category       String?
+  views          Int?
+  author         Json?
+  lastUpdated    DateTime?
+  insights       String[]         @default([])
+  resources      Json?
+  showcaseSection ShowcaseSection?
+  isVisible      Boolean          @default(true)
+  position       Int?
+  createdAt      DateTime         @default(now())
+  updatedAt      DateTime         @updatedAt
+}
+
+model Tag {
+  id             Int      @id @default(autoincrement())
+  name           String
+  normalizedName String   @unique
+  color          String?
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+}
+
+model Testimonial {
+  id        Int      @id @default(autoincrement())
+  quote     String
+  author    String
+  role      String
+  company   String?
+  avatar    String?
+  isActive  Boolean  @default(true)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model TrendingTopic {
+  id          Int      @id @default(autoincrement())
+  title       String
+  description String?
+  imageUrl    String?
+  linkUrl     String?
+  position    Int?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}

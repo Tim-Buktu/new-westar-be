@@ -1,0 +1,2 @@
+# @prisma/client depends on this file to represent the current datasource provider
+provider = "postgresql"
